@@ -3,6 +3,7 @@ const    express =        require("express"),
        bodyParser=        require ("body-parser"),
         Exercise =        require("./models/exercise"),
              User=        require("./models/user");
+             
 
                        require('dotenv').config();
         
@@ -29,40 +30,56 @@ app.get("/",(req,res)=>{
 
 app.post("/api/exercise/new-user",(req,res)=>{
     let name=req.body.username;
-   
-
-
-    User.findOne({"name":name},"-exercise",(err,foundedUser)=>{
+   User.findOne({"name":name},"-exercise",(err,foundedUser)=>{
         if(err){
            res.send(err)
         }else {
            if(foundedUser){
-             userid=foundedUser._id
-             console.log(userid)
-            
-               res.redirect("/")
+             res.json({name:name,id:foundedUser._id ,status:"saved user"})
            }else{
             let newUser={"name":name};
             User.create(newUser,(err,createdUser)=>{
                 if(err){
                     res.json(err)
                 }else{
-                    userid=createdUser._id
-                    id.value=createdUser._id
-               res.redirect("/")
+                   res.json({name:name,id:createdUser._id,status:"new Created User"})
                 }
             })
                
            }
-    
         }
        
     })
-  
-  
+  });
+  app.post("/api/exercise/add",(req,res)=>{
+      let desc=req.body.desc;
+      let duration=req.body.time;
+      let date=req.body.date;
+      let name=req.body.exercisename;
+      
+    Exercise.findOne({name:name,desc:desc, duration:duration ,date:date},(err,foundedExercise)=>{
+        if(err){
+           res.send(err)
+        }else {
+           if(foundedExercise){
+             res.json({name:name,desc:desc,duration:duration,date:Date,status:"saved user"})
+           }else{
+            let newExercise={name:name,desc:desc,duration:duration,date:date};
+            Exercise.create(newExercise,(err,createdExercise)=>{
+                if(err){
+                    res.json(err)
+                }else{
+                   res.json(createdExercise)
+                }
+            })
+               
+           }
+        }
+       
+    })
+  });
 
-  
-});
+  app.get("/api/exercise/log?{userId}[&from][&to][&limit]")
     
 
 

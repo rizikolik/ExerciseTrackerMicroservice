@@ -2,12 +2,16 @@ let mongoose=require("mongoose");
 
 
 let ExerciseSchema=new mongoose.Schema( {
+	name:{
+		type:String,
+		required:true
+	},
 	desc:{
 		type:String,
 		required:true
 	},
 	duration:{
-		type:String,
+		type:Number,
 		required:true
 	},
 	date:{
