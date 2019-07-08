@@ -2,7 +2,10 @@ let mongoose=require("mongoose");
 
 
 let UserSchema=new mongoose.Schema( {
-	name:String,
+	name:{
+		type:String,
+		required:true
+	},
 	exercise:[
 		{
 			type:mongoose.Schema.Types.ObjectId,
