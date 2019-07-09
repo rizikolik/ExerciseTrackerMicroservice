@@ -79,7 +79,9 @@ app.post("/api/exercise/new-user",(req,res)=>{
     })
   });
 
-  app.get("/api/exercise/log?{userId}[&from][&to][&limit]")
+  app.get("/api/exercise/log?{userId}[&from][&to][&limit]",(req,res)={
+      
+  })
     
 
 
