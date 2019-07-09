@@ -56,32 +56,46 @@ app.post("/api/exercise/new-user",(req,res)=>{
       let duration=req.body.time;
       let date=req.body.date;
       let name=req.body.exercisename;
+      let userid=req.body.userid;
+     
+          
       
-    Exercise.findOne({name:name,desc:desc, duration:duration ,date:date},(err,foundedExercise)=>{
+      
+   
+    User.findById(userid,(err,data)=>{
         if(err){
            res.send(err)
-        }else {
-           if(foundedExercise){
-             res.json({name:name,desc:desc,duration:duration,date:Date,status:"saved user"})
-           }else{
+        }else{
             let newExercise={name:name,desc:desc,duration:duration,date:date};
             Exercise.create(newExercise,(err,createdExercise)=>{
                 if(err){
                     res.json(err)
                 }else{
-                   res.json(createdExercise)
+                   data.exercises.push(createdExercise);
+                   data.save();
+                   res.send(data)
                 }
             })
                
            }
-        }
+        
        
     })
   });
 
-  app.get("/api/exercise/log?{userId}[&from][&to][&limit]",(req,res)={
+  app.get("/api/exercise/log/:id",(req,res)=>{
       
-  })
+      User.findById(req.params.id).populate("exercises").exec( function(err, foundedUser){
+        if(err){
+            console.log(err);
+        } else {
+            //render show template with that campground
+            res.send(foundedUser.exercises)
+        }
+    });
+});
+      
+  
     
 
 

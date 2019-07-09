@@ -6,7 +6,7 @@ let UserSchema=new mongoose.Schema( {
 		type:String,
 		required:true
 	},
-	exercise:[
+	exercises:[
 		{
 			type:mongoose.Schema.Types.ObjectId,
 			ref:"Exercise"  //Should be defiened before!
